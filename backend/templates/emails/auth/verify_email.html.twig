@@ -1,0 +1,7 @@
+{% extends 'emails/base.html.twig' %}
+{% block content %}
+<h2>Vérifiez votre adresse email</h2>
+<p>Merci de vous être inscrit sur Compawgnon. Cliquez sur le bouton ci-dessous pour vérifier votre adresse email.</p>
+<p><a href="{{ verification_url }}" class="btn">Vérifier mon email</a></p>
+<p style="color:#7a7a72;font-size:13px;">Ce lien expire dans {{ expires_in }}. Si vous n'avez pas créé de compte, ignorez cet email.</p>
+{% endblock %}
