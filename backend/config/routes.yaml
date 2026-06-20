@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=../vendor/symfony/routing/Loader/schema/routing.schema.json
+
+# JWT login — intercepté par le firewall json_login, aucun controller requis
+api_login_check:
+    path: /api/auth/login
+    methods: [POST]
+
+# JWT refresh token
+api_refresh_token:
+    path: /api/auth/token/refresh
+    methods: [POST]

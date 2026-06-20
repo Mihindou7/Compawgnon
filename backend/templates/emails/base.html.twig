@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<style>
+body { font-family: Arial, sans-serif; background: #f2ede4; margin: 0; padding: 20px; }
+.container { max-width: 600px; margin: 0 auto; background: #fff; border-radius: 8px; padding: 32px; }
+.header { color: #3a8a1e; font-size: 24px; font-weight: bold; margin-bottom: 24px; }
+.btn { display: inline-block; background: #3a8a1e; color: #fff !important; padding: 12px 24px; border-radius: 6px; text-decoration: none; margin: 16px 0; }
+.footer { color: #7a7a72; font-size: 12px; margin-top: 32px; border-top: 1px solid #dedad2; padding-top: 16px; }
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">🐾 Compawgnon</div>
+{% block content %}{% endblock %}
+<div class="footer">© 2026 Compawgnon — Plateforme d'achat et d'adoption d'animaux<br>Si vous n'êtes pas à l'origine de cette action, ignorez cet email.</div>
+</div>
+</body>
+</html>
