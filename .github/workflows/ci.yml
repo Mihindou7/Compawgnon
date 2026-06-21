@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  # ─────────────────────────────────────────────
+  # Job 1 : Frontend — lint, types, tests
+  # ─────────────────────────────────────────────
+  frontend:
+    name: Frontend (Next.js)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Lint ESLint
+        run: npm run lint
+
+      - name: Vérification TypeScript
+        run: npx tsc --noEmit
+
+      - name: Tests unitaires (Vitest)
+        run: npm test
+
+  # ─────────────────────────────────────────────
+  # Job 2 : Backend — PHPUnit
+  # ─────────────────────────────────────────────
+  backend:
+    name: Backend (Symfony)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo_mysql, intl, zip, opcache, apcu
+          coverage: none
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: backend/vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('backend/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Installer les dépendances Composer
+        run: composer install --no-interaction --prefer-dist --no-scripts --optimize-autoloader
+
+      - name: Tests unitaires (PHPUnit)
+        run: vendor/bin/phpunit --configuration phpunit.dist.xml
+        env:
+          APP_ENV: test
