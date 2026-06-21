@@ -1,0 +1,7 @@
+{% extends 'emails/base.html.twig' %}
+{% block content %}
+<h2>Votre demande vendeur</h2>
+<p>Bonjour <strong>{{ seller_name }}</strong>, votre demande de compte vendeur n'a pas pu être acceptée.</p>
+{% if rejection_reason %}<p>Motif : <em>{{ rejection_reason }}</em></p>{% endif %}
+<p>Vous pouvez modifier votre profil et soumettre à nouveau.</p>
+{% endblock %}
