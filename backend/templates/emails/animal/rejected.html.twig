@@ -1,0 +1,7 @@
+{% extends 'emails/base.html.twig' %}
+{% block content %}
+<h2>Votre annonce n'a pas été publiée</h2>
+<p>L'annonce <strong>{{ animal_title }}</strong> n'a pas pu être publiée.</p>
+{% if rejection_reason %}<p>Motif : <em>{{ rejection_reason }}</em></p>{% endif %}
+<p>Corrigez votre annonce et soumettez-la à nouveau depuis votre espace vendeur.</p>
+{% endblock %}
