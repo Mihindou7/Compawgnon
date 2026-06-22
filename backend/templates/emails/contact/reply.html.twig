@@ -1,0 +1,10 @@
+{% extends 'emails/base.html.twig' %}
+{% block content %}
+<h2>Réponse à votre demande</h2>
+<p>Bonjour <strong>{{ name }}</strong>,</p>
+<p>Suite à votre message, voici la réponse de notre équipe :</p>
+<div style="background:#eaf3e5; border-left:4px solid #3a8a1e; border-radius:6px; padding:16px; margin:16px 0; white-space:pre-line;">{{ reply_message }}</div>
+<p style="color:#7a7a72; font-size:13px;">Pour rappel, votre message initial :</p>
+<div style="background:#f2ede4; border-radius:6px; padding:12px; margin:8px 0; color:#4a4a44; font-size:13px; white-space:pre-line;">{{ original_message }}</div>
+<p>Bien cordialement,<br>L'équipe Compawgnon</p>
+{% endblock %}
