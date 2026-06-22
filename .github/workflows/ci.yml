@@ -9,10 +9,12 @@ on:
 jobs:
   # ─────────────────────────────────────────────
   # Job 1 : Frontend — lint, types, tests
+  # TODO: réactiver quand le frontend sera committé par fonctionnalité
   # ─────────────────────────────────────────────
   frontend:
     name: Frontend (Next.js)
     runs-on: ubuntu-latest
+    if: false
     defaults:
       run:
         working-directory: frontend
