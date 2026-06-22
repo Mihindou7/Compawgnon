@@ -1,0 +1,7 @@
+{% extends 'emails/base.html.twig' %}
+{% block content %}
+<h2>Nouvelle demande de réservation</h2>
+<p>Vous avez reçu une demande de réservation pour l'animal <strong>{{ animal_title }}</strong>.</p>
+{% if buyer_message %}<p>Message de l'acheteur : <em>{{ buyer_message }}</em></p>{% endif %}
+<p>Connectez-vous pour accepter ou refuser cette demande.</p>
+{% endblock %}

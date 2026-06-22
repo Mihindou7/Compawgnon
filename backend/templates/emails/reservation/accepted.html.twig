@@ -1,0 +1,6 @@
+{% extends 'emails/base.html.twig' %}
+{% block content %}
+<h2>Votre réservation a été acceptée ✓</h2>
+<p>Bonne nouvelle ! Votre réservation pour <strong>{{ animal_title }}</strong> a été acceptée par le vendeur.</p>
+{% if seller_response %}<p>Message du vendeur : <em>{{ seller_response }}</em></p>{% endif %}
+{% endblock %}
