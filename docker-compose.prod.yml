@@ -17,9 +17,6 @@ services:
       NODE_ENV: production
       BACKEND_INTERNAL_URL: http://php
     # Pas de port exposé : FrankenPHP reverse-proxy vers ce conteneur
-    depends_on:
-      php:
-        condition: service_started
 
   # ─── Backend FrankenPHP / Caddy ──────────────────────────────────────────────
   php:
