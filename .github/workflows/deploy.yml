@@ -1,0 +1,37 @@
+name: Deploy to Hetzner
+
+on:
+  push:
+    branches: [main]
+
+# Un seul déploiement à la fois
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy production
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.HETZNER_HOST }}
+          username: ${{ secrets.HETZNER_USER }}
+          key: ${{ secrets.HETZNER_SSH_KEY }}
+          script: |
+            set -e
+            cd /opt/compawgnon
+
+            echo ">>> Pull du code..."
+            git pull origin main
+
+            echo ">>> Rebuild et redémarrage des conteneurs..."
+            docker compose -f docker-compose.prod.yml up -d --build --remove-orphans
+
+            echo ">>> Nettoyage des images obsolètes..."
+            docker image prune -f
+
+            echo ">>> Déploiement terminé."

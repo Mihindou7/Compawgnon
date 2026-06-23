@@ -1,0 +1,103 @@
+# Production — standalone (ne pas combiner avec docker-compose.yml)
+# Usage : docker compose -f docker-compose.prod.yml up -d --build
+
+services:
+
+  # ─── Frontend Next.js ───────────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ""                           # same-origin via le proxy Caddy
+        NEXT_PUBLIC_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+        BACKEND_INTERNAL_URL: http://php
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      BACKEND_INTERNAL_URL: http://php
+    # Pas de port exposé : FrankenPHP reverse-proxy vers ce conteneur
+    depends_on:
+      php:
+        condition: service_started
+
+  # ─── Backend FrankenPHP / Caddy ──────────────────────────────────────────────
+  php:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: frankenphp_prod
+    restart: unless-stopped
+    environment:
+      SERVER_NAME: https://${DOMAIN:?DOMAIN requis}, php:80
+      CADDY_ADMIN_EMAIL: ${CADDY_ADMIN_EMAIL:-admin@compawgnon.fr}
+      MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:?CADDY_MERCURE_JWT_SECRET requis}
+      MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}
+      TRUSTED_PROXIES: ${TRUSTED_PROXIES:-127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16}
+      TRUSTED_HOSTS: ^${DOMAIN}|php$$
+      DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@database:3306/${MYSQL_DB}?serverVersion=8.4&charset=utf8mb4
+      MAILER_DSN: ${MAILER_DSN:?MAILER_DSN requis}
+      MAILER_FROM_ADDRESS: ${MAILER_FROM_ADDRESS:-noreply@compawgnon.fr}
+      MAILER_FROM_NAME: ${MAILER_FROM_NAME:-Compawgnon}
+      FRONTEND_URL: https://${DOMAIN}
+      CORS_ALLOW_ORIGIN: ^https://${DOMAIN}$$
+      APP_ENV: prod
+      APP_SECRET: ${APP_SECRET:?APP_SECRET requis}
+      JWT_PASSPHRASE: ${JWT_PASSPHRASE:?JWT_PASSPHRASE requis}
+      MONGODB_URL: mongodb://mongodb:27017
+      MONGODB_DB: compawgnon
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+      - uploads_data:/app/public/uploads
+      # Clés JWT générées une fois sur le serveur par deploy/setup-server.sh
+      - /opt/compawgnon/jwt:/app/config/jwt:ro
+      # Caddyfile de production
+      - ./backend/frankenphp/Caddyfile.prod:/etc/caddy/Caddyfile:ro
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    depends_on:
+      database:
+        condition: service_healthy
+      mongodb:
+        condition: service_started
+      frontend:
+        condition: service_started
+
+  # ─── MySQL ───────────────────────────────────────────────────────────────────
+  database:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DB}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    # Pas de port exposé publiquement
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─── MongoDB ─────────────────────────────────────────────────────────────────
+  mongodb:
+    image: mongo:7
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: compawgnon
+    volumes:
+      - mongo_data:/data/db
+    # Pas de port exposé publiquement
+
+volumes:
+  caddy_data:
+  caddy_config:
+  mysql_data:
+  uploads_data:
+  mongo_data:
