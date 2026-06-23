@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main, master]
+    branches: [develope]
   pull_request:
-    branches: [main, master]
+    branches: [develope]
 
 jobs:
   # ─────────────────────────────────────────────
@@ -42,12 +42,10 @@ jobs:
 
   # ─────────────────────────────────────────────
   # Job 2 : Backend — PHPUnit
-  # TODO: réactiver quand le backend sera committé complètement
   # ─────────────────────────────────────────────
   backend:
     name: Backend (Symfony)
     runs-on: ubuntu-latest
-    if: false
     defaults:
       run:
         working-directory: backend
