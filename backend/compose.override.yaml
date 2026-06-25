@@ -15,3 +15,9 @@ services:
     ports:
       - target: 3306
         published: ${MYSQL_PORT:-3306}
+
+###> doctrine/mongodb-odm-bundle ###
+  mongodb:
+    ports:
+      - "27017"
+###< doctrine/mongodb-odm-bundle ###

@@ -1,38 +1,8 @@
 services:
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-      args:
-        NEXT_PUBLIC_API_URL: ""
-        NEXT_PUBLIC_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
-        BACKEND_INTERNAL_URL: http://php
-    restart: unless-stopped
-    environment:
-      NODE_ENV: production
-      BACKEND_INTERNAL_URL: http://php
-    ports:
-      - target: 3000
-        published: ${FRONTEND_PORT:-3000}
-        protocol: tcp
-    depends_on:
-      php:
-        condition: service_started
-
   php:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-      target: frankenphp_dev
+    image: ${IMAGES_PREFIX:-}app-php
     restart: unless-stopped
-    volumes:
-      - ./backend:/app
-      - ./backend/frankenphp/conf.d/app.dev.ini:/usr/local/etc/php/conf.d/app.dev.ini:ro
-      - caddy_data:/data
-      - caddy_config:/config
-      - uploads_data:/app/public/uploads
     environment:
-      APP_ENV: dev
       SERVER_NAME: ${SERVER_NAME:-http://localhost}, php:80
       MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
       MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
@@ -40,11 +10,16 @@ services:
       TRUSTED_HOSTS: ^${SERVER_NAME:-example\.com|localhost}|php$$
       DATABASE_URL: mysql://${MYSQL_USER:-compawgnon}:${MYSQL_PASSWORD:-secret}@database:3306/${MYSQL_DB:-compawgnon}?serverVersion=8.4&charset=utf8mb4
       MAILER_DSN: smtp://mailer:1025
-      FRONTEND_URL: http://localhost:${FRONTEND_PORT:-3000}
-      CORS_ALLOW_ORIGIN: '^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$$'
-      APP_SECRET: ${APP_SECRET:-compawgnon_dev_secret_change_in_prod}
-      JWT_PASSPHRASE: ${JWT_PASSPHRASE:-compawgnon_jwt_passphrase}
       MONGODB_URL: mongodb://mongodb:27017
+    depends_on:
+      database:
+        condition: service_healthy
+      mongodb:
+        condition: service_started
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+      - ./public/uploads:/app/public/uploads
     ports:
       - target: 80
         published: ${HTTP_PORT:-80}
@@ -55,11 +30,6 @@ services:
       - target: 443
         published: ${HTTP3_PORT:-443}
         protocol: udp
-    depends_on:
-      database:
-        condition: service_healthy
-      mongodb:
-        condition: service_started
 
   database:
     image: mysql:8.4
@@ -90,7 +60,7 @@ services:
       - mongo_data:/data/db
     ports:
       - target: 27017
-        published: ${MONGO_PORT:-27018}
+        published: ${MONGO_PORT:-27017}
         protocol: tcp
 
   mailer:
@@ -105,5 +75,4 @@ volumes:
   caddy_data:
   caddy_config:
   mysql_data:
-  uploads_data:
   mongo_data:

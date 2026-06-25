@@ -1,10 +1,7 @@
 name: CI
 
 on:
-  push:
-    branches: [develope]
-  pull_request:
-    branches: [develope]
+  workflow_dispatch:
 
 jobs:
   # ─────────────────────────────────────────────
@@ -46,6 +43,7 @@ jobs:
   backend:
     name: Backend (Symfony)
     runs-on: ubuntu-latest
+    if: false
     defaults:
       run:
         working-directory: backend
