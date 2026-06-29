@@ -67,6 +67,9 @@ jobs:
       - name: Installer les dépendances Composer
         run: composer install --no-interaction --prefer-dist --no-scripts --optimize-autoloader
 
+      - name: Créer le fichier .env minimal
+        run: printf 'APP_ENV=test\nAPP_SECRET=ci_secret_for_tests\nDATABASE_URL=sqlite:///:memory:\nMAILER_DSN=null://null\n' > .env
+
       - name: Tests unitaires (PHPUnit)
         run: vendor/bin/phpunit --configuration phpunit.dist.xml --testsuite Unit
         env:
@@ -121,6 +124,9 @@ jobs:
 
       - name: Installer les dépendances Composer
         run: composer install --no-interaction --prefer-dist --no-scripts --optimize-autoloader
+
+      - name: Créer le fichier .env minimal
+        run: printf 'APP_ENV=test\nAPP_SECRET=ci_secret_for_tests\nDATABASE_URL=sqlite:///:memory:\nMAILER_DSN=null://null\n' > .env
 
       - name: Créer le schéma et lancer les migrations
         run: |
