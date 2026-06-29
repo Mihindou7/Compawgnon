@@ -128,13 +128,11 @@ jobs:
       - name: Créer le fichier .env minimal
         run: printf 'APP_ENV=test\nAPP_SECRET=ci_secret_for_tests\nDATABASE_URL=sqlite:///:memory:\nMAILER_DSN=null://null\n' > .env
 
-      - name: Créer le schéma et lancer les migrations
-        run: |
-          php bin/console doctrine:database:create --env=test --if-not-exists
-          php bin/console doctrine:migrations:migrate --env=test --no-interaction
+      - name: Lancer les migrations Doctrine
+        run: php bin/console doctrine:migrations:migrate --env=test --no-interaction
         env:
           APP_ENV: test
-          DATABASE_URL: "mysql://compawgnon:secret@127.0.0.1:3306/compawgnon_test?serverVersion=8.4&charset=utf8mb4"
+          DATABASE_URL: "mysql://compawgnon:secret@127.0.0.1:3306/compawgnon?serverVersion=8.4&charset=utf8mb4"
           MONGODB_URL: "mongodb://127.0.0.1:27017"
           MONGODB_DB: compawgnon_test
 
@@ -142,6 +140,6 @@ jobs:
         run: vendor/bin/phpunit --configuration phpunit.dist.xml --testsuite Integration
         env:
           APP_ENV: test
-          DATABASE_URL: "mysql://compawgnon:secret@127.0.0.1:3306/compawgnon_test?serverVersion=8.4&charset=utf8mb4"
+          DATABASE_URL: "mysql://compawgnon:secret@127.0.0.1:3306/compawgnon?serverVersion=8.4&charset=utf8mb4"
           MONGODB_URL: "mongodb://127.0.0.1:27017"
           MONGODB_DB: compawgnon_test
