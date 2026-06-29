@@ -1,17 +1,18 @@
 name: CI
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [develope]
+  pull_request:
+    branches: [develope, master]
 
 jobs:
   # ─────────────────────────────────────────────
   # Job 1 : Frontend — lint, types, tests
-  # TODO: réactiver quand le frontend sera committé par fonctionnalité
   # ─────────────────────────────────────────────
   frontend:
     name: Frontend (Next.js)
     runs-on: ubuntu-latest
-    if: false
     defaults:
       run:
         working-directory: frontend
@@ -38,12 +39,11 @@ jobs:
         run: npm test
 
   # ─────────────────────────────────────────────
-  # Job 2 : Backend — PHPUnit
+  # Job 2 : Backend — Tests unitaires (sans services)
   # ─────────────────────────────────────────────
-  backend:
-    name: Backend (Symfony)
+  backend-unit:
+    name: Backend — Tests unitaires
     runs-on: ubuntu-latest
-    if: false
     defaults:
       run:
         working-directory: backend
@@ -68,6 +68,74 @@ jobs:
         run: composer install --no-interaction --prefer-dist --no-scripts --optimize-autoloader
 
       - name: Tests unitaires (PHPUnit)
-        run: vendor/bin/phpunit --configuration phpunit.dist.xml
+        run: vendor/bin/phpunit --configuration phpunit.dist.xml --testsuite Unit
         env:
           APP_ENV: test
+
+  # ─────────────────────────────────────────────
+  # Job 3 : Backend — Tests d'intégration (MySQL + MongoDB)
+  # ─────────────────────────────────────────────
+  backend-integration:
+    name: Backend — Tests d'intégration
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    services:
+      database:
+        image: mysql:8.4
+        env:
+          MYSQL_DATABASE: compawgnon_test
+          MYSQL_USER: compawgnon
+          MYSQL_PASSWORD: secret
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+      mongodb:
+        image: mongo:7
+        ports:
+          - 27017:27017
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo_mysql, intl, zip, opcache, apcu, mongodb
+          coverage: none
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: backend/vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('backend/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Installer les dépendances Composer
+        run: composer install --no-interaction --prefer-dist --no-scripts --optimize-autoloader
+
+      - name: Créer le schéma et lancer les migrations
+        run: |
+          php bin/console doctrine:database:create --env=test --if-not-exists
+          php bin/console doctrine:migrations:migrate --env=test --no-interaction
+        env:
+          APP_ENV: test
+          DATABASE_URL: "mysql://compawgnon:secret@127.0.0.1:3306/compawgnon_test?serverVersion=8.4&charset=utf8mb4"
+          MONGODB_URL: "mongodb://127.0.0.1:27017"
+          MONGODB_DB: compawgnon_test
+
+      - name: Tests d'intégration (PHPUnit)
+        run: vendor/bin/phpunit --configuration phpunit.dist.xml --testsuite Integration
+        env:
+          APP_ENV: test
+          DATABASE_URL: "mysql://compawgnon:secret@127.0.0.1:3306/compawgnon_test?serverVersion=8.4&charset=utf8mb4"
+          MONGODB_URL: "mongodb://127.0.0.1:27017"
+          MONGODB_DB: compawgnon_test

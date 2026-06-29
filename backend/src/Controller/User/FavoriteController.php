@@ -40,8 +40,8 @@ class FavoriteController extends AbstractApiController
                 'price'     => (float) $f->getAnimal()->getPrice(),
                 'status'    => $f->getAnimal()->getStatus(),
                 'sex'       => $f->getAnimal()->getSex(),
-                'cover_url' => $f->getAnimal()->getMedia()->filter(fn($m) => $m->isCover())->first()?->getFileUrl()
-                              ?? $f->getAnimal()->getMedia()->first()?->getFileUrl(),
+                'cover_url' => ($f->getAnimal()->getMedia()->filter(fn($m) => $m->isCover())->first() ?: null)?->getFileUrl()
+                              ?? ($f->getAnimal()->getMedia()->first() ?: null)?->getFileUrl(),
                 'city'      => $f->getAnimal()->getCity(),
             ],
             'created_at' => $f->getCreatedAt()->format(\DateTimeInterface::ATOM),
