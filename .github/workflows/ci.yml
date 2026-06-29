@@ -86,6 +86,12 @@ jobs:
     defaults:
       run:
         working-directory: backend
+    env:
+      APP_ENV: test
+      JWT_PASSPHRASE: ci_jwt_passphrase
+      DATABASE_URL: "mysql://compawgnon:secret@127.0.0.1:3306/compawgnon?serverVersion=8.4&charset=utf8mb4"
+      MONGODB_URL: "mongodb://127.0.0.1:27017"
+      MONGODB_DB: compawgnon_test
 
     services:
       database:
@@ -134,22 +140,9 @@ jobs:
 
       - name: Générer la paire de clés JWT
         run: php bin/console lexik:jwt:generate-keypair --skip-if-exists --env=test
-        env:
-          APP_ENV: test
-          JWT_PASSPHRASE: ci_jwt_passphrase
 
       - name: Lancer les migrations Doctrine
         run: php bin/console doctrine:migrations:migrate --env=test --no-interaction
-        env:
-          APP_ENV: test
-          DATABASE_URL: "mysql://compawgnon:secret@127.0.0.1:3306/compawgnon?serverVersion=8.4&charset=utf8mb4"
-          MONGODB_URL: "mongodb://127.0.0.1:27017"
-          MONGODB_DB: compawgnon_test
 
       - name: Tests d'intégration (PHPUnit)
         run: vendor/bin/phpunit --configuration phpunit.dist.xml --testsuite Integration
-        env:
-          APP_ENV: test
-          DATABASE_URL: "mysql://compawgnon:secret@127.0.0.1:3306/compawgnon?serverVersion=8.4&charset=utf8mb4"
-          MONGODB_URL: "mongodb://127.0.0.1:27017"
-          MONGODB_DB: compawgnon_test
