@@ -68,7 +68,9 @@ jobs:
         run: composer install --no-interaction --prefer-dist --no-scripts --optimize-autoloader
 
       - name: Créer le fichier .env minimal
-        run: printf 'APP_ENV=test\nAPP_SECRET=ci_secret_for_tests\nDATABASE_URL=sqlite:///:memory:\nMAILER_DSN=null://null\n' > .env
+        run: |
+          printf 'APP_ENV=test\nAPP_SECRET=ci_secret_for_tests\nDATABASE_URL=sqlite:///:memory:\nMAILER_DSN=null://null\nDEFAULT_URI=http://localhost\n' > .env
+          printf 'JWT_SECRET_KEY=%%kernel.project_dir%%/config/jwt/private.pem\nJWT_PUBLIC_KEY=%%kernel.project_dir%%/config/jwt/public.pem\nJWT_PASSPHRASE=ci_jwt_passphrase\nJWT_TTL=3600\nJWT_REFRESH_TOKEN_TTL=2592000\n' >> .env
 
       - name: Tests unitaires (PHPUnit)
         run: vendor/bin/phpunit --configuration phpunit.dist.xml --testsuite Unit
@@ -126,7 +128,15 @@ jobs:
         run: composer install --no-interaction --prefer-dist --no-scripts --optimize-autoloader
 
       - name: Créer le fichier .env minimal
-        run: printf 'APP_ENV=test\nAPP_SECRET=ci_secret_for_tests\nDATABASE_URL=sqlite:///:memory:\nMAILER_DSN=null://null\n' > .env
+        run: |
+          printf 'APP_ENV=test\nAPP_SECRET=ci_secret_for_tests\nDATABASE_URL=sqlite:///:memory:\nMAILER_DSN=null://null\nDEFAULT_URI=http://localhost\n' > .env
+          printf 'JWT_SECRET_KEY=%%kernel.project_dir%%/config/jwt/private.pem\nJWT_PUBLIC_KEY=%%kernel.project_dir%%/config/jwt/public.pem\nJWT_PASSPHRASE=ci_jwt_passphrase\nJWT_TTL=3600\nJWT_REFRESH_TOKEN_TTL=2592000\n' >> .env
+
+      - name: Générer la paire de clés JWT
+        run: php bin/console lexik:jwt:generate-keypair --skip-if-exists --env=test
+        env:
+          APP_ENV: test
+          JWT_PASSPHRASE: ci_jwt_passphrase
 
       - name: Lancer les migrations Doctrine
         run: php bin/console doctrine:migrations:migrate --env=test --no-interaction
