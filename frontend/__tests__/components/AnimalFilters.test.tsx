@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
@@ -25,7 +25,7 @@ const {
   mockListBreeds:   vi.fn(),
   filterStateRef: {
     current: {
-      filters:          {} as Record<string, any>,
+      filters:          {} as Record<string, unknown>,
       activeFilterCount: 0,
     },
   },
@@ -87,9 +87,10 @@ function makeWrapper() {
   const qc = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   })
-  return ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={qc}>{children}</QueryClientProvider>
-  )
+  function Wrapper({ children }: { children: React.ReactNode }) {
+    return <QueryClientProvider client={qc}>{children}</QueryClientProvider>
+  }
+  return Wrapper
 }
 
 // ---------------------------------------------------------------------------

@@ -38,9 +38,10 @@ function makeWrapper(client?: QueryClient) {
       mutations: { retry: false },
     },
   })
-  return ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={qc}>{children}</QueryClientProvider>
-  )
+  function Wrapper({ children }: { children: React.ReactNode }) {
+    return <QueryClientProvider client={qc}>{children}</QueryClientProvider>
+  }
+  return Wrapper
 }
 
 let queryClient: QueryClient

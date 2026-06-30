@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import type { ReactNode } from 'react'
 import { describe, expect, it, vi } from 'vitest'
 
 import { AnimalCard } from '@/components/animal/AnimalCard'
@@ -11,14 +12,30 @@ import type { Animal } from '@/lib/types/api.types'
 
 // Link → simple <a> (pattern établi dans EmptyState.test.tsx)
 vi.mock('next/link', () => ({
-  default: ({ href, children, className }: any) => (
+  default: ({
+    href,
+    children,
+    className,
+  }: {
+    href: string
+    children: ReactNode
+    className?: string
+  }) => (
     <a href={href} className={className}>{children}</a>
   ),
 }))
 
 // Image → <img> natif pour jsdom
 vi.mock('next/image', () => ({
-  default: ({ src, alt, className }: any) => (
+  default: ({
+    src,
+    alt,
+    className,
+  }: {
+    src: string
+    alt: string
+    className?: string
+  }) => (
     <img src={src} alt={alt} className={className} />
   ),
 }))

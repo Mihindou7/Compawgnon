@@ -6,6 +6,10 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { LoginForm } from '@/components/auth/LoginForm'
 import { ApiError } from '@/lib/api/client'
 
+type AuthStoreMock = {
+  hydrate: () => void
+}
+
 // ---------------------------------------------------------------------------
 // Variables hoistées — accessibles dans les factories vi.mock
 // ---------------------------------------------------------------------------
@@ -49,7 +53,7 @@ vi.mock('@/lib/utils/tokens', () => ({
 }))
 
 vi.mock('@/stores/auth.store', () => ({
-  useAuthStore: (selector: (s: any) => any) => selector({ hydrate: mockHydrate }),
+  useAuthStore: <T,>(selector: (s: AuthStoreMock) => T) => selector({ hydrate: mockHydrate }),
 }))
 
 // GoogleLoginButton retourne null si NEXT_PUBLIC_GOOGLE_CLIENT_ID est absent,
