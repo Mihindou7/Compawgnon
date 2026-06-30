@@ -4,7 +4,7 @@ import { profileSchema, sellerApplicationSchema } from '@/lib/schemas/profile.sc
 
 // Retourne les messages d'erreur Zod pour un champ donne.
 function msgs(
-  result: { success: boolean; error?: { issues: Array<{ path: (string | number)[]; message: string }> } },
+  result: { success: boolean; error?: { issues: Array<{ path: PropertyKey[]; message: string }> } },
   champ?: string,
 ): string[] {
   if (!result.error) return []

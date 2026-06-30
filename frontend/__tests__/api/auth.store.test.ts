@@ -92,11 +92,7 @@ const USER_SELLER: User = {
     id:              42,
     user_id:         2,
     name:            'Élevage Test',
-    type:            'breeder',
     verified_status: 'approved',
-    city:            'Paris',
-    rating:          4.5,
-    reviews_count:   10,
   },
 }
 
