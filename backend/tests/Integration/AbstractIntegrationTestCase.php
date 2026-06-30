@@ -71,7 +71,22 @@ abstract class AbstractIntegrationTestCase extends WebTestCase
 
     protected function statusCode(): int
     {
-        return $this->client->getResponse()->getStatusCode();
+        $response = $this->client->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        if ($statusCode >= 500) {
+            $request = $this->client->getRequest();
+
+            self::fail(sprintf(
+                "Unexpected HTTP %d for %s %s:\n%s",
+                $statusCode,
+                $request?->getMethod() ?? 'UNKNOWN',
+                $request?->getRequestUri() ?? 'UNKNOWN',
+                $response->getContent(),
+            ));
+        }
+
+        return $statusCode;
     }
 
     protected function json(): array
