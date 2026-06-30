@@ -69,7 +69,7 @@ jobs:
 
       - name: Créer le fichier .env minimal
         run: |
-          printf 'APP_ENV=test\nAPP_SECRET=ci_secret_for_tests\nDATABASE_URL=sqlite:///:memory:\nMAILER_DSN=null://null\nDEFAULT_URI=http://localhost\n' > .env
+          printf 'APP_ENV=test\nAPP_SECRET=ci_secret_for_tests\nDATABASE_URL=sqlite:///:memory:\nMAILER_DSN=null://null\nDEFAULT_URI=http://localhost\nFRONTEND_URL=http://localhost:3000\nMAILER_FROM_ADDRESS=noreply@compawgnon.test\nMAILER_FROM_NAME=Compawgnon\nMONGODB_URL=mongodb://127.0.0.1:27017\nMONGODB_DB=compawgnon_test\n' > .env
           printf 'JWT_SECRET_KEY=%%kernel.project_dir%%/config/jwt/private.pem\nJWT_PUBLIC_KEY=%%kernel.project_dir%%/config/jwt/public.pem\nJWT_PASSPHRASE=ci_jwt_passphrase\nJWT_TTL=3600\nJWT_REFRESH_TOKEN_TTL=2592000\n' >> .env
 
       - name: Tests unitaires (PHPUnit)
@@ -135,7 +135,8 @@ jobs:
 
       - name: Créer le fichier .env minimal
         run: |
-          printf 'APP_ENV=test\nAPP_SECRET=ci_secret_for_tests\nDATABASE_URL=sqlite:///:memory:\nMAILER_DSN=null://null\nDEFAULT_URI=http://localhost\n' > .env
+          printf 'APP_ENV=test\nAPP_SECRET=ci_secret_for_tests\nMAILER_DSN=null://null\nDEFAULT_URI=http://localhost\nFRONTEND_URL=http://localhost:3000\nMAILER_FROM_ADDRESS=noreply@compawgnon.test\nMAILER_FROM_NAME=Compawgnon\nMONGODB_DB=compawgnon_test\n' > .env
+          printf 'DATABASE_URL=%s\nMONGODB_URL=%s\n' "$DATABASE_URL" "$MONGODB_URL" >> .env
           printf 'JWT_SECRET_KEY=%%kernel.project_dir%%/config/jwt/private.pem\nJWT_PUBLIC_KEY=%%kernel.project_dir%%/config/jwt/public.pem\nJWT_PASSPHRASE=ci_jwt_passphrase\nJWT_TTL=3600\nJWT_REFRESH_TOKEN_TTL=2592000\n' >> .env
 
       - name: Générer la paire de clés JWT

@@ -14,6 +14,7 @@ abstract class AbstractIntegrationTestCase extends WebTestCase
     protected function setUp(): void
     {
         $this->client = static::createClient();
+        $this->client->disableReboot();
         $this->em     = static::getContainer()->get(EntityManagerInterface::class);
     }
 
