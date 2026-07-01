@@ -77,11 +77,19 @@ jobs:
     needs: build-and-push
 
     steps:
-      - name: Valider le deploy sur Pull Request
+      - name: Verifier SSH production sur Pull Request
         if: ${{ github.event_name == 'pull_request' }}
-        run: |
-          echo "Pull Request: le job Deploy production est valide."
-          echo "Aucun deploiement production n'est lance depuis une Pull Request."
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.HETZNER_HOST }}
+          username: ${{ secrets.HETZNER_USER }}
+          key: ${{ secrets.HETZNER_SSH_KEY }}
+          script: |
+            set -e
+            cd /opt/compawgnon
+            git status --short
+            docker compose -f docker-compose.prod.yml config --quiet
+            echo "SSH production OK pour cette Pull Request."
 
       - name: Déployer via SSH
         if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.event == 'push' }}
