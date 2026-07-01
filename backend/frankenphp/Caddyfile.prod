@@ -1,0 +1,38 @@
+{
+	{$CADDY_GLOBAL_OPTIONS}
+
+	frankenphp {
+		{$FRANKENPHP_CONFIG}
+	}
+}
+
+{$CADDY_EXTRA_CONFIG}
+
+{$SERVER_NAME:https://compawgnon.fr} {
+	log {
+		format filter {
+			request>uri query {
+				replace authorization REDACTED
+			}
+		}
+	}
+
+	encode zstd br gzip
+
+	# Fichiers uploadés — servis directement depuis public/uploads
+	handle /uploads/* {
+		root * /app/public
+		file_server
+	}
+
+	# API Symfony (toutes les routes /api/*)
+	handle /api/* {
+		vars root "/app/public"
+		php_server
+	}
+
+	# Tout le reste → Next.js frontend
+	handle {
+		reverse_proxy frontend:3000
+	}
+}

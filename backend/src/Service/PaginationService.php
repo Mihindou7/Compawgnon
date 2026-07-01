@@ -25,7 +25,7 @@ readonly class PaginationService
             ->getQuery()
             ->getResult();
 
-        $totalPages = $total > 0 ? (int) ceil($total / $limit) : 1;
+        $totalPages = $total > 0 ? (int) ceil($total / $limit) : 0;
 
         return [
             'data' => $items,
