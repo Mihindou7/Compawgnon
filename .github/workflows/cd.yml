@@ -1,6 +1,8 @@
 name: CD Compawgnon
 
 on:
+  pull_request:
+    branches: [develope, master]
   workflow_run:
     workflows: ["CI"]
     types: [completed]
@@ -20,14 +22,15 @@ jobs:
   build-and-push:
     name: Build & Push images GHCR
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push' }}
+    if: ${{ github.event_name == 'pull_request' || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push') }}
 
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.workflow_run.head_sha }}
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.event.pull_request.head.sha }}
 
       - name: Login GHCR
+        if: ${{ github.event_name == 'workflow_run' }}
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
@@ -36,10 +39,12 @@ jobs:
 
       - name: Préparer les tags
         id: meta
+        env:
+          HEAD_SHA: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.event.pull_request.head.sha }}
         run: |
           REPO=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
           echo "repo=$REPO" >> $GITHUB_OUTPUT
-          echo "sha=$(echo "${{ github.event.workflow_run.head_sha }}" | cut -c1-7)" >> $GITHUB_OUTPUT
+          echo "sha=${HEAD_SHA::7}" >> $GITHUB_OUTPUT
 
       - name: Build et push image backend (FrankenPHP)
         uses: docker/build-push-action@v5
@@ -47,7 +52,7 @@ jobs:
           context: ./backend
           file: ./backend/Dockerfile
           target: frankenphp_prod
-          push: true
+          push: ${{ github.event_name == 'workflow_run' }}
           tags: |
             ghcr.io/${{ steps.meta.outputs.repo }}/backend:latest
             ghcr.io/${{ steps.meta.outputs.repo }}/backend:${{ steps.meta.outputs.sha }}
@@ -57,9 +62,9 @@ jobs:
         with:
           context: ./frontend
           file: ./frontend/Dockerfile
-          push: true
+          push: ${{ github.event_name == 'workflow_run' }}
           build-args: |
-            NEXT_PUBLIC_GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+            NEXT_PUBLIC_GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID || 'test-google-client-id' }}
             BACKEND_INTERNAL_URL=http://php
           tags: |
             ghcr.io/${{ steps.meta.outputs.repo }}/frontend:latest
@@ -70,6 +75,7 @@ jobs:
     name: Deploy production
     runs-on: ubuntu-latest
     needs: build-and-push
+    if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.event == 'push' }}
 
     steps:
       - name: Déployer via SSH

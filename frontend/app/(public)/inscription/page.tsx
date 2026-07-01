@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { PawPrint } from 'lucide-react'
 import Link from 'next/link'
 import type { Metadata } from 'next'
@@ -24,7 +25,9 @@ export default function InscriptionPage() {
         </div>
 
         <div className="rounded-2xl border border-border bg-surface-white p-8 shadow-[0_4px_24px_0_rgb(0_0_0/0.06)]">
-          <RegisterForm />
+          <Suspense>
+            <RegisterForm />
+          </Suspense>
         </div>
       </div>
     </main>
