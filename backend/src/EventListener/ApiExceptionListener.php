@@ -2,6 +2,7 @@
 
 namespace App\EventListener;
 
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +15,12 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 #[AsEventListener(event: KernelEvents::EXCEPTION, priority: 10)]
 class ApiExceptionListener
 {
+    public function __construct(
+        #[Autowire('%kernel.environment%')]
+        private readonly string $environment,
+    ) {
+    }
+
     public function __invoke(ExceptionEvent $event): void
     {
         $request = $event->getRequest();
@@ -48,6 +55,16 @@ class ApiExceptionListener
             // 401 if no token in request, 403 if authenticated but wrong role
             $status = $this->hasToken($request) ? 403 : 401;
             $message = $status === 401 ? 'Authentication required.' : 'Access denied.';
+        }
+
+        if ($status >= 500 && $this->environment === 'test') {
+            $data = [
+                'error' => $message,
+                'debug' => [
+                    'exception' => $exception::class,
+                    'message' => $exception->getMessage(),
+                ],
+            ];
         }
 
         $event->setResponse(new JsonResponse($data ?? ['error' => $message], $status));

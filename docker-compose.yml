@@ -23,8 +23,16 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+      target: frankenphp_dev
     restart: unless-stopped
+    volumes:
+      - ./backend:/app
+      - ./backend/frankenphp/conf.d/app.dev.ini:/usr/local/etc/php/conf.d/app.dev.ini:ro
+      - caddy_data:/data
+      - caddy_config:/config
+      - uploads_data:/app/public/uploads
     environment:
+      APP_ENV: dev
       SERVER_NAME: ${SERVER_NAME:-http://localhost}, php:80
       MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
       MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
@@ -37,10 +45,6 @@ services:
       APP_SECRET: ${APP_SECRET:-compawgnon_dev_secret_change_in_prod}
       JWT_PASSPHRASE: ${JWT_PASSPHRASE:-compawgnon_jwt_passphrase}
       MONGODB_URL: mongodb://mongodb:27017
-    volumes:
-      - caddy_data:/data
-      - caddy_config:/config
-      - uploads_data:/app/public/uploads
     ports:
       - target: 80
         published: ${HTTP_PORT:-80}
@@ -86,7 +90,7 @@ services:
       - mongo_data:/data/db
     ports:
       - target: 27017
-        published: ${MONGO_PORT:-27017}
+        published: ${MONGO_PORT:-27018}
         protocol: tcp
 
   mailer:

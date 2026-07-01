@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="7" fill="#3A8A1E"/>
+  <!-- Main palm pad -->
+  <ellipse cx="16" cy="21" rx="5.5" ry="4.2" fill="white"/>
+  <!-- Four toe pads -->
+  <ellipse cx="9.5" cy="16.5" rx="2.2" ry="2.6" fill="white" transform="rotate(-15 9.5 16.5)"/>
+  <ellipse cx="13.2" cy="13.5" rx="2" ry="2.5" fill="white" transform="rotate(-5 13.2 13.5)"/>
+  <ellipse cx="18.8" cy="13.5" rx="2" ry="2.5" fill="white" transform="rotate(5 18.8 13.5)"/>
+  <ellipse cx="22.5" cy="16.5" rx="2.2" ry="2.6" fill="white" transform="rotate(15 22.5 16.5)"/>
+</svg>
