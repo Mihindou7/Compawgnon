@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-06-27T00:00:00.000Z" agent="Claude" version="21.0.0" type="device">
+  <diagram id="compawgnon-ecrans" name="Enchaînement des écrans — Utilisateur">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1900" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- TITRE -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <mxCell id="99" value="Schéma d'enchaînement des écrans — Compawgnon (Parcours Utilisateur)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;fontStyle=1;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="20" y="10" width="1860" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- LÉGENDE -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <mxCell id="leg1" value="Navigation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="20" y="740" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2" value="Authentification" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="130" y="740" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3" value="Espace compte" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="260" y="740" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="leg4" value="Modal / Overlay" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="380" y="740" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="leg5" value="--- Retour arrière" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="500" y="740" width="140" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- FONDS DE GROUPES -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+
+        <!-- Fond Groupe 1 : Navigation publique -->
+        <mxCell id="2" value="&lt;b&gt;🌐  Navigation publique&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;verticalAlign=top;spacingTop=8;opacity=40;" vertex="1" parent="1">
+          <mxGeometry x="20" y="55" width="660" height="660" as="geometry" />
+        </mxCell>
+
+        <!-- Fond Groupe 2 : Authentification -->
+        <mxCell id="3" value="&lt;b&gt;🔐  Authentification&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;verticalAlign=top;spacingTop=8;opacity=40;" vertex="1" parent="1">
+          <mxGeometry x="720" y="55" width="460" height="660" as="geometry" />
+        </mxCell>
+
+        <!-- Fond Groupe 3 : Espace compte -->
+        <mxCell id="4" value="&lt;b&gt;👤  Espace compte (connecté)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;verticalAlign=top;spacingTop=8;opacity=40;" vertex="1" parent="1">
+          <mxGeometry x="1220" y="55" width="660" height="660" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- ÉCRANS — NAVIGATION PUBLIQUE -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+
+        <!-- Accueil -->
+        <mxCell id="10" value="&lt;b&gt;🏠 Accueil&lt;/b&gt;&lt;br/&gt;&lt;font color=&apos;#555555&apos; style=&apos;font-size:10px&apos;&gt;/&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="230" y="110" width="200" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Catalogue -->
+        <mxCell id="11" value="&lt;b&gt;📋 Catalogue&lt;/b&gt;&lt;br/&gt;&lt;font color=&apos;#555555&apos; style=&apos;font-size:10px&apos;&gt;/animaux&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="60" y="270" width="200" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Espèces -->
+        <mxCell id="12" value="&lt;b&gt;🐾 Espèces&lt;/b&gt;&lt;br/&gt;&lt;font color=&apos;#555555&apos; style=&apos;font-size:10px&apos;&gt;/especes&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="420" y="270" width="200" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Fiche animal -->
+        <mxCell id="13" value="&lt;b&gt;📄 Fiche animal&lt;/b&gt;&lt;br/&gt;&lt;font color=&apos;#555555&apos; style=&apos;font-size:10px&apos;&gt;/animaux/id&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="60" y="430" width="200" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Profil vendeur -->
+        <mxCell id="14" value="&lt;b&gt;🏪 Profil vendeur&lt;/b&gt;&lt;br/&gt;&lt;font color=&apos;#555555&apos; style=&apos;font-size:10px&apos;&gt;/vendeurs/id&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="420" y="430" width="200" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Modal réservation -->
+        <mxCell id="15" value="&lt;b&gt;📋 Modal réservation&lt;/b&gt;&lt;br/&gt;&lt;font color=&apos;#555555&apos; style=&apos;font-size:10px&apos;&gt;(overlay sur la fiche)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="60" y="590" width="200" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- ÉCRANS — AUTHENTIFICATION -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+
+        <!-- Connexion -->
+        <mxCell id="16" value="&lt;b&gt;🔑 Connexion&lt;/b&gt;&lt;br/&gt;&lt;font color=&apos;#555555&apos; style=&apos;font-size:10px&apos;&gt;/connexion&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="860" y="110" width="200" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Inscription -->
+        <mxCell id="17" value="&lt;b&gt;📝 Inscription&lt;/b&gt;&lt;br/&gt;&lt;font color=&apos;#555555&apos; style=&apos;font-size:10px&apos;&gt;/inscription&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="730" y="270" width="200" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Mot de passe oublié -->
+        <mxCell id="18" value="&lt;b&gt;🔒 Mot de passe oublié&lt;/b&gt;&lt;br/&gt;&lt;font color=&apos;#555555&apos; style=&apos;font-size:10px&apos;&gt;/mot-de-passe-oublie&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="960" y="270" width="200" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Email de vérification (page confirmation) -->
+        <mxCell id="19" value="&lt;b&gt;📧 Email envoyé&lt;/b&gt;&lt;br/&gt;&lt;font color=&apos;#555555&apos; style=&apos;font-size:10px&apos;&gt;(page de confirmation)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="730" y="430" width="200" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Réinitialisation mot de passe -->
+        <mxCell id="20" value="&lt;b&gt;🔑 Réinitialisation mdp&lt;/b&gt;&lt;br/&gt;&lt;font color=&apos;#555555&apos; style=&apos;font-size:10px&apos;&gt;/reinitialiser-mot-de-passe&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="960" y="430" width="200" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Compte vérifié -->
+        <mxCell id="21" value="&lt;b&gt;✅ Compte vérifié&lt;/b&gt;&lt;br/&gt;&lt;font color=&apos;#555555&apos; style=&apos;font-size:10px&apos;&gt;/verify-email?token=...&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="730" y="590" width="200" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- ÉCRANS — ESPACE COMPTE -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+
+        <!-- Dashboard compte -->
+        <mxCell id="22" value="&lt;b&gt;👤 Dashboard&lt;/b&gt;&lt;br/&gt;&lt;font color=&apos;#555555&apos; style=&apos;font-size:10px&apos;&gt;/compte&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1430" y="110" width="200" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Profil utilisateur -->
+        <mxCell id="23" value="&lt;b&gt;✏️ Profil&lt;/b&gt;&lt;br/&gt;&lt;font color=&apos;#555555&apos; style=&apos;font-size:10px&apos;&gt;/compte/profil&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="270" width="170" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Favoris -->
+        <mxCell id="24" value="&lt;b&gt;❤️ Favoris&lt;/b&gt;&lt;br/&gt;&lt;font color=&apos;#555555&apos; style=&apos;font-size:10px&apos;&gt;/compte/favoris&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1445" y="270" width="170" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Réservations -->
+        <mxCell id="25" value="&lt;b&gt;📅 Réservations&lt;/b&gt;&lt;br/&gt;&lt;font color=&apos;#555555&apos; style=&apos;font-size:10px&apos;&gt;/compte/reservations&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1650" y="270" width="170" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Messages (liste) -->
+        <mxCell id="26" value="&lt;b&gt;💬 Messages&lt;/b&gt;&lt;br/&gt;&lt;font color=&apos;#555555&apos; style=&apos;font-size:10px&apos;&gt;/compte/messages&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="430" width="170" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Mes avis -->
+        <mxCell id="27" value="&lt;b&gt;⭐ Mes avis&lt;/b&gt;&lt;br/&gt;&lt;font color=&apos;#555555&apos; style=&apos;font-size:10px&apos;&gt;/compte/avis&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1445" y="430" width="170" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Devenir vendeur -->
+        <mxCell id="28" value="&lt;b&gt;🏪 Devenir vendeur&lt;/b&gt;&lt;br/&gt;&lt;font color=&apos;#555555&apos; style=&apos;font-size:10px&apos;&gt;/compte/devenir-vendeur&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1650" y="430" width="170" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Conversation -->
+        <mxCell id="29" value="&lt;b&gt;💬 Conversation&lt;/b&gt;&lt;br/&gt;&lt;font color=&apos;#555555&apos; style=&apos;font-size:10px&apos;&gt;/compte/messages/id&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="590" width="170" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- FLÈCHES DE NAVIGATION -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+
+        <!-- HOME → CAT -->
+        <mxCell id="30" value="Clic Rechercher" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="10" target="11" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- HOME → ESP -->
+        <mxCell id="31" value="Clic par espèce" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="10" target="12" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- HOME → ANIMAL -->
+        <mxCell id="32" value="Clic annonce récente" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="10" target="13" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- HOME → LOGIN -->
+        <mxCell id="33" value="Clic Se connecter" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="10" target="16" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- HOME → DEVVEND -->
+        <mxCell id="34" value="Clic Déposer une demande" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="10" target="28" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- CAT → ANIMAL -->
+        <mxCell id="35" value="Clic carte animal" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="11" target="13" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ESP → CAT -->
+        <mxCell id="36" value="Clic espèce" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="12" target="11" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ANIMAL → VEND -->
+        <mxCell id="37" value="Voir profil vendeur" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="13" target="14" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ANIMAL → LOGIN (non connecté) -->
+        <mxCell id="38" value="Se connecter pour contacter" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="13" target="16" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ANIMAL → MODAL_RES (connecté) -->
+        <mxCell id="39" value="Clic Faire une demande" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="13" target="15" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ANIMAL → CONV (connecté) -->
+        <mxCell id="40" value="Envoyer un message" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="13" target="29" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- VEND → ANIMAL -->
+        <mxCell id="41" value="Clic annonce" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="14" target="13" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- LOGIN → REGISTER -->
+        <mxCell id="42" value="Créer un compte" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="16" target="17" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- LOGIN → FORGOT -->
+        <mxCell id="43" value="Mot de passe oublié" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="16" target="18" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- LOGIN → COMPTE (succès) -->
+        <mxCell id="44" value="Connexion réussie ✓" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;strokeColor=#008000;fontColor=#006600;fontStyle=1;" edge="1" source="16" target="22" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- REGISTER → VERIF_WAIT -->
+        <mxCell id="45" value="Formulaire soumis" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="17" target="19" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- VERIF_WAIT → VERIF -->
+        <mxCell id="46" value="Clic lien dans l&apos;email" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="19" target="21" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- VERIF → LOGIN -->
+        <mxCell id="47" value="Redirection auto" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;dashed=1;" edge="1" source="21" target="16" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- FORGOT → RESET -->
+        <mxCell id="48" value="Lien reçu par email" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="18" target="20" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- RESET → LOGIN -->
+        <mxCell id="49" value="Nouveau mdp validé" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;dashed=1;" edge="1" source="20" target="16" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- COMPTE → PROFIL -->
+        <mxCell id="50" value="Mon profil" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="22" target="23" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- COMPTE → FAVS -->
+        <mxCell id="51" value="Favoris" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="22" target="24" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- COMPTE → RESS -->
+        <mxCell id="52" value="Réservations" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="22" target="25" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- COMPTE → MSGS -->
+        <mxCell id="53" value="Messages" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="22" target="26" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- COMPTE → AVIS -->
+        <mxCell id="54" value="Mes avis" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="22" target="27" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- COMPTE → DEVVEND -->
+        <mxCell id="55" value="Devenir vendeur" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="22" target="28" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- PROFIL → COMPTE (retour) -->
+        <mxCell id="56" value="Retour" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;dashed=1;" edge="1" source="23" target="22" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- FAVS → ANIMAL -->
+        <mxCell id="57" value="Clic carte animal" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="24" target="13" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- FAVS → COMPTE (retour) -->
+        <mxCell id="58" value="Retour" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;dashed=1;" edge="1" source="24" target="22" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- RESS → ANIMAL -->
+        <mxCell id="59" value="Clic animal réservé" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="25" target="13" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- RESS → COMPTE (retour) -->
+        <mxCell id="60" value="Retour" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;dashed=1;" edge="1" source="25" target="22" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- MSGS → CONV -->
+        <mxCell id="61" value="Clic conversation" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="26" target="29" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- MSGS → COMPTE (retour) -->
+        <mxCell id="62" value="Retour" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;dashed=1;" edge="1" source="26" target="22" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- CONV → MSGS (retour) -->
+        <mxCell id="63" value="Retour" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;dashed=1;" edge="1" source="29" target="26" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- AVIS → COMPTE (retour) -->
+        <mxCell id="64" value="Retour" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;dashed=1;" edge="1" source="27" target="22" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- DEVVEND → COMPTE -->
+        <mxCell id="65" value="Demande soumise" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;" edge="1" source="28" target="22" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- MODAL_RES → RESS (confirmer) -->
+        <mxCell id="66" value="Confirmer ✓" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;strokeColor=#008000;fontColor=#006600;fontStyle=1;" edge="1" source="15" target="25" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- MODAL_RES → ANIMAL (annuler) -->
+        <mxCell id="67" value="Annuler" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;dashed=1;" edge="1" source="15" target="13" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
