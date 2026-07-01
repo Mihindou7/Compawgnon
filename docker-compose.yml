@@ -39,7 +39,7 @@ services:
       TRUSTED_PROXIES: ${TRUSTED_PROXIES:-127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16}
       TRUSTED_HOSTS: ^${SERVER_NAME:-example\.com|localhost}|php$$
       DATABASE_URL: mysql://${MYSQL_USER:-compawgnon}:${MYSQL_PASSWORD:-secret}@database:3306/${MYSQL_DB:-compawgnon}?serverVersion=8.4&charset=utf8mb4
-      MAILER_DSN: smtp://mailer:1025
+      MAILER_DSN: ${MAILER_DSN}
       FRONTEND_URL: http://localhost:${FRONTEND_PORT:-3000}
       CORS_ALLOW_ORIGIN: '^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$$'
       APP_SECRET: ${APP_SECRET:-compawgnon_dev_secret_change_in_prod}
@@ -91,14 +91,6 @@ services:
     ports:
       - target: 27017
         published: ${MONGO_PORT:-27018}
-        protocol: tcp
-
-  mailer:
-    image: axllent/mailpit:latest
-    restart: unless-stopped
-    ports:
-      - target: 8025
-        published: ${MAILER_PORT:-8025}
         protocol: tcp
 
 volumes:
