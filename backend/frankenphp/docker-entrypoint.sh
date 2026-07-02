@@ -35,10 +35,10 @@ if [ "$1" = 'frankenphp' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 			echo "Database is not ready, giving up"
 		else
 			echo "Database is ready!"
-		fi
 
-		if [ "${SYMFONY_ENV:-}" != "prod" ]; then
-			php bin/console doctrine:migrations:migrate --no-interaction
+			if [ "${APP_ENV:-}" != "prod" ] && [ "${SYMFONY_ENV:-}" != "prod" ]; then
+				php bin/console doctrine:migrations:migrate --no-interaction
+			fi
 		fi
 	fi
 fi
