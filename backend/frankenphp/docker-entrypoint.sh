@@ -13,8 +13,13 @@ if [ "$1" = 'frankenphp' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 		rm -Rf tmp/
 	fi
 
-	if [ -f composer.json ]; then
-		composer install --prefer-dist --no-progress --no-interaction
+	if [ -f composer.json ] && [ ! -f vendor/autoload_runtime.php ]; then
+		if [ "$APP_ENV" = 'prod' ]; then
+			composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress --no-interaction
+			composer dump-autoload --classmap-authoritative --no-dev
+		else
+			composer install --prefer-dist --no-progress --no-interaction
+		fi
 	fi
 
 	if grep -q ^DATABASE_URL= .env 2>/dev/null || [ -n "$DATABASE_URL" ]; then
