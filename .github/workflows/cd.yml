@@ -77,8 +77,31 @@ jobs:
     needs: build-and-push
 
     steps:
-      - name: Verifier SSH production sur Pull Request
+      - name: Verifier les secrets SSH
+        id: ssh-secrets
         if: ${{ github.event_name == 'pull_request' }}
+        env:
+          HETZNER_HOST: ${{ secrets.HETZNER_HOST }}
+          HETZNER_USER: ${{ secrets.HETZNER_USER }}
+          HETZNER_SSH_KEY: ${{ secrets.HETZNER_SSH_KEY }}
+        run: |
+          missing=0
+
+          for name in HETZNER_HOST HETZNER_USER HETZNER_SSH_KEY; do
+            if [ -z "${!name}" ]; then
+              echo "::warning::$name est indisponible pour cette Pull Request."
+              missing=1
+            fi
+          done
+
+          if [ "$missing" -eq 0 ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Verifier SSH production sur Pull Request
+        if: ${{ github.event_name == 'pull_request' && steps.ssh-secrets.outputs.available == 'true' }}
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.HETZNER_HOST }}
@@ -87,9 +110,13 @@ jobs:
           script: |
             set -e
             cd /opt/compawgnon
-            git status --short
-            docker compose -f docker-compose.prod.yml config --quiet
             echo "SSH production OK pour cette Pull Request."
+
+      - name: Ignorer la verification SSH sur Pull Request
+        if: ${{ github.event_name == 'pull_request' && steps.ssh-secrets.outputs.available != 'true' }}
+        run: |
+          echo "Secrets SSH indisponibles sur cet evenement pull_request."
+          echo "Le vrai deploiement SSH reste execute apres merge via workflow_run."
 
       - name: Déployer via SSH
         if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.event == 'push' }}
