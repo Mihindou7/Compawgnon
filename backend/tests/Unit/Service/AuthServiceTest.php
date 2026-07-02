@@ -59,21 +59,22 @@ class AuthServiceTest extends TestCase
         $this->authService->register($dto);
     }
 
-    public function testRegisterCreerUnUserAvecRoleUserEtTokenDeVerification(): void
+    public function testRegisterCreerUnUserAvecRoleUserEtEmailAutoVerifie(): void
     {
+        // Vérification email désactivée temporairement : pas d'envoi de mail,
+        // l'utilisateur est vérifié immédiatement à l'inscription.
         $dto = $this->makeRegisterDTO('new@test.com', 'Jean', 'Dupont');
         $this->passwordHasher->method('hashPassword')->willReturn('hashed_password');
         $this->em->expects($this->once())->method('persist')->with($this->isInstanceOf(User::class));
         $this->em->expects($this->once())->method('flush');
-        $this->mailService->expects($this->once())->method('sendVerificationEmail');
+        $this->mailService->expects($this->never())->method('sendVerificationEmail');
 
         $user = $this->authService->register($dto);
 
         $this->assertSame('new@test.com', $user->getEmail());
         $this->assertContains('ROLE_USER', $user->getRoles());
-        $this->assertNotNull($user->getEmailVerificationToken());
-        // bin2hex(random_bytes(32)) produit toujours 64 caractères hexadécimaux
-        $this->assertSame(64, \strlen((string) $user->getEmailVerificationToken()));
+        $this->assertTrue($user->isEmailVerified());
+        $this->assertNull($user->getEmailVerificationToken());
         $this->assertSame('Jean', $user->getFirstName());
         $this->assertSame('Dupont', $user->getLastName());
     }

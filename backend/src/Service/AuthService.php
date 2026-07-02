@@ -39,14 +39,11 @@ class AuthService
             $user->setLastName($dto->lastName);
         }
 
-        $token = $this->generateSecureToken();
-        $user->setEmailVerificationToken($token);
+        // Vérification email désactivée temporairement (MAILER_DSN pas encore configuré en prod).
+        $user->setEmailVerifiedAt(new \DateTimeImmutable());
 
         $this->em->persist($user);
         $this->em->flush();
-
-        $verificationUrl = $this->frontendUrl . '/auth/verify-email?token=' . $token;
-        $this->mailService->sendVerificationEmail($user->getEmail(), $verificationUrl);
 
         return $user;
     }

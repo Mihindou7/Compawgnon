@@ -62,7 +62,7 @@ export function RegisterForm() {
   async function onSubmit(data: RegisterData) {
     try {
       await authApi.register({ ...data, termsAccepted: true })
-      toast.success('Compte créé ! Vérifiez votre boîte mail.')
+      toast.success('Compte créé ! Vous pouvez vous connecter.')
       router.push('/connexion')
     } catch (err) {
       if (err instanceof ApiError) {
