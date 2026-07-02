@@ -67,6 +67,16 @@ class ApiExceptionListener
             ];
         }
 
+        if ($status >= 500) {
+            error_log(sprintf(
+                '[api] %s: %s in %s:%d',
+                $exception::class,
+                $exception->getMessage(),
+                $exception->getFile(),
+                $exception->getLine(),
+            ));
+        }
+
         $event->setResponse(new JsonResponse($data ?? ['error' => $message], $status));
     }
 
