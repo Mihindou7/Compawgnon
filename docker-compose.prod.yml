@@ -37,6 +37,7 @@ services:
       MAILER_FROM_ADDRESS: ${MAILER_FROM_ADDRESS:-noreply@compawgnon.fr}
       MAILER_FROM_NAME: ${MAILER_FROM_NAME:-Compawgnon}
       FRONTEND_URL: ${FRONTEND_URL:-https://${DOMAIN}}
+      DEFAULT_URI: ${FRONTEND_URL:-https://${DOMAIN}}
       CORS_ALLOW_ORIGIN: ${CORS_ALLOW_ORIGIN:-^https://${DOMAIN}$$}
       APP_ENV: prod
       APP_SECRET: ${APP_SECRET:?APP_SECRET requis}
