@@ -141,7 +141,7 @@ describe('RegisterForm — inscription réussie', () => {
     await user.click(getSubmit())
     await waitFor(() =>
       expect(mockToastSuccess).toHaveBeenCalledWith(
-        'Compte créé ! Vérifiez votre boîte mail.',
+        'Compte créé ! Vous pouvez vous connecter.',
       ),
     )
   })

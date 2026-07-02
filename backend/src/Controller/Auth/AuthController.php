@@ -30,7 +30,7 @@ class AuthController extends AbstractApiController
         $authService->register($dto);
 
         return $this->created([
-            'message' => 'Compte créé avec succès. Un email de vérification a été envoyé.',
+            'message' => 'Compte créé avec succès.',
         ]);
     }
 

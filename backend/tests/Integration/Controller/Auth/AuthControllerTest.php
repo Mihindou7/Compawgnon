@@ -42,13 +42,13 @@ class AuthControllerTest extends AbstractIntegrationTestCase
 
         $data = $this->json();
         $this->assertArrayHasKey('data', $data);
-        $this->assertStringContainsString('vérification', $data['data']['message']);
+        $this->assertStringContainsString('succès', $data['data']['message']);
 
-        // L'utilisateur est bien en base, email non vérifié
+        // L'utilisateur est bien en base, email auto-vérifié (vérification désactivée temporairement)
         $user = $this->em->getRepository(User::class)->findOneBy(['email' => 'nouveau@test.com']);
         $this->assertNotNull($user);
-        $this->assertFalse($user->isEmailVerified());
-        $this->assertNotNull($user->getEmailVerificationToken());
+        $this->assertTrue($user->isEmailVerified());
+        $this->assertNull($user->getEmailVerificationToken());
     }
 
     public function testInscriptionEmailDejaUtilise(): void
