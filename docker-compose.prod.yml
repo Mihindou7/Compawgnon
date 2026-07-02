@@ -26,18 +26,18 @@ services:
       target: frankenphp_prod
     restart: unless-stopped
     environment:
-      SERVER_NAME: https://${DOMAIN:?DOMAIN requis}, php:80
+      SERVER_NAME: ${SERVER_NAME:-https://${DOMAIN:?DOMAIN requis}, php:80}
       CADDY_ADMIN_EMAIL: ${CADDY_ADMIN_EMAIL:-admin@compawgnon.fr}
       MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:?CADDY_MERCURE_JWT_SECRET requis}
       MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}
       TRUSTED_PROXIES: ${TRUSTED_PROXIES:-127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16}
-      TRUSTED_HOSTS: ^${DOMAIN}|php$$
+      TRUSTED_HOSTS: ${TRUSTED_HOSTS:-^${DOMAIN}|php$$}
       DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@database:3306/${MYSQL_DB}?serverVersion=8.4&charset=utf8mb4
       MAILER_DSN: ${MAILER_DSN:?MAILER_DSN requis}
       MAILER_FROM_ADDRESS: ${MAILER_FROM_ADDRESS:-noreply@compawgnon.fr}
       MAILER_FROM_NAME: ${MAILER_FROM_NAME:-Compawgnon}
-      FRONTEND_URL: https://${DOMAIN}
-      CORS_ALLOW_ORIGIN: ^https://${DOMAIN}$$
+      FRONTEND_URL: ${FRONTEND_URL:-https://${DOMAIN}}
+      CORS_ALLOW_ORIGIN: ${CORS_ALLOW_ORIGIN:-^https://${DOMAIN}$$}
       APP_ENV: prod
       APP_SECRET: ${APP_SECRET:?APP_SECRET requis}
       JWT_PASSPHRASE: ${JWT_PASSPHRASE:?JWT_PASSPHRASE requis}
