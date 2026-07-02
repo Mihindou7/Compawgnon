@@ -41,7 +41,10 @@ services:
       CORS_ALLOW_ORIGIN: ${CORS_ALLOW_ORIGIN:-^https://${DOMAIN}$$}
       APP_ENV: prod
       APP_SECRET: ${APP_SECRET:?APP_SECRET requis}
+      JWT_SECRET_KEY: '%kernel.project_dir%/config/jwt/private.pem'
+      JWT_PUBLIC_KEY: '%kernel.project_dir%/config/jwt/public.pem'
       JWT_PASSPHRASE: ${JWT_PASSPHRASE:?JWT_PASSPHRASE requis}
+      JWT_TTL: ${JWT_TTL:-3600}
       MONGODB_URL: mongodb://mongodb:27017
       MONGODB_DB: compawgnon
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
