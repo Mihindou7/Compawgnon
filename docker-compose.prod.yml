@@ -45,6 +45,7 @@ services:
       JWT_PUBLIC_KEY: '%kernel.project_dir%/config/jwt/public.pem'
       JWT_PASSPHRASE: ${JWT_PASSPHRASE:?JWT_PASSPHRASE requis}
       JWT_TTL: ${JWT_TTL:-3600}
+      JWT_REFRESH_TOKEN_TTL: ${JWT_REFRESH_TOKEN_TTL:-2592000}
       MONGODB_URL: mongodb://mongodb:27017
       MONGODB_DB: compawgnon
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
