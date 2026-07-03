@@ -73,7 +73,7 @@ export default function CompteLayout({ children }: { children: React.ReactNode }
   return (
     <>
       <Breadcrumb items={breadcrumbItems} className="mb-6" />
-      <div className="flex gap-8">
+      <div className="flex items-start gap-8">
 
         {/* Sidebar nav — desktop */}
         <nav className="hidden w-52 shrink-0 lg:block">
