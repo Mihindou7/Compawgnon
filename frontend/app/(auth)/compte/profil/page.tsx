@@ -118,7 +118,7 @@ export default function ProfilPage() {
         className="space-y-5 rounded-2xl border border-border bg-surface-white p-6"
       >
         <h2 className="font-serif text-xl text-text-ink">Informations personnelles</h2>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Input
             label="Prénom"
             placeholder="Jean"

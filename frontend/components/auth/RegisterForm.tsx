@@ -86,7 +86,7 @@ export function RegisterForm() {
         <div className="h-px flex-1 bg-border" />
       </div>
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Input
           label="Prénom"
           autoComplete="given-name"
