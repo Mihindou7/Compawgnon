@@ -53,6 +53,8 @@ jobs:
           file: ./backend/Dockerfile
           target: frankenphp_prod
           push: ${{ github.event_name == 'workflow_run' }}
+          provenance: false
+          sbom: false
           tags: |
             ghcr.io/${{ steps.meta.outputs.repo }}/backend:latest
             ghcr.io/${{ steps.meta.outputs.repo }}/backend:${{ steps.meta.outputs.sha }}
@@ -63,6 +65,8 @@ jobs:
           context: ./frontend
           file: ./frontend/Dockerfile
           push: ${{ github.event_name == 'workflow_run' }}
+          provenance: false
+          sbom: false
           build-args: |
             NEXT_PUBLIC_GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID || 'test-google-client-id' }}
             BACKEND_INTERNAL_URL=http://php
