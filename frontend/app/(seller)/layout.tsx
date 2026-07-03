@@ -17,6 +17,7 @@ import { usePathname } from 'next/navigation'
 
 import { sellerAnimalsApi } from '@/lib/api/seller_animals.api'
 import { Sidebar } from '@/components/layout/Sidebar'
+import { MobileNavPills } from '@/components/layout/MobileNavPills'
 import { NotificationBell } from '@/components/layout/NotificationBell'
 import { MessageBell } from '@/components/layout/MessageBell'
 import { useAuth } from '@/hooks/useAuth'
@@ -182,6 +183,7 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
           </div>
         </header>
 
+        <MobileNavPills items={sellerItems} />
         <main className="flex-1 overflow-y-auto p-6">{children}</main>
       </div>
     </div>

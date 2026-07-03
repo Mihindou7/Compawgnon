@@ -22,6 +22,7 @@ import { usePathname } from 'next/navigation'
 
 import { adminApi } from '@/lib/api/admin.api'
 import { Sidebar } from '@/components/layout/Sidebar'
+import { MobileNavPills } from '@/components/layout/MobileNavPills'
 import { NotificationBell } from '@/components/layout/NotificationBell'
 import { MessageBell } from '@/components/layout/MessageBell'
 import { useAuth } from '@/hooks/useAuth'
@@ -178,6 +179,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </DropdownMenu.Root>
           </div>
         </header>
+        <MobileNavPills items={adminItems} />
         <main className="flex-1 overflow-y-auto p-6">{children}</main>
       </div>
     </div>
