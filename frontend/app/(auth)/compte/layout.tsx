@@ -73,7 +73,7 @@ export default function CompteLayout({ children }: { children: React.ReactNode }
   return (
     <>
       <Breadcrumb items={breadcrumbItems} className="mb-6" />
-      <div className="flex items-start gap-8">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:gap-8">
 
         {/* Sidebar nav — desktop */}
         <nav className="hidden w-52 shrink-0 lg:block">
@@ -108,7 +108,7 @@ export default function CompteLayout({ children }: { children: React.ReactNode }
         </nav>
 
         {/* Mobile nav */}
-        <div className="mb-6 flex gap-2 overflow-x-auto pb-1 lg:hidden">
+        <div className="flex gap-2 overflow-x-auto pb-1 lg:hidden">
           {BASE_ITEMS.map((item) => {
             const active = pathname === item.href || pathname.startsWith(item.href + '/')
             const badge  = badges[item.href] ?? 0
