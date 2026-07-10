@@ -8,7 +8,7 @@
 
 {$CADDY_EXTRA_CONFIG}
 
-{$SERVER_NAME:https://compawgnon.fr} {
+{$SERVER_NAME:https://compawgnon.duckdns.org} {
 	log {
 		format filter {
 			request>uri query {

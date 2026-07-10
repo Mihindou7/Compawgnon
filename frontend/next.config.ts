@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: 'http',  hostname: 'localhost', port: '', pathname: '/uploads/**' },
       { protocol: 'https', hostname: '**.compawgnon.fr', pathname: '/uploads/**' },
+      { protocol: 'https', hostname: 'compawgnon.duckdns.org', pathname: '/uploads/**' },
       { protocol: 'https', hostname: '*.ngrok-free.app', pathname: '/uploads/**' },
       { protocol: 'https', hostname: '*.trycloudflare.com', pathname: '/uploads/**' },
     ],
