@@ -150,6 +150,40 @@ class CataloguePublicTest extends AbstractIntegrationTestCase
     }
 
     // =========================================================================
+    // GET /api/animals — injection SQL
+    // =========================================================================
+
+    public function testRechercheAvecPayloadInjectionSqlNeBypassePasLeFiltre(): void
+    {
+        // Doctrine QueryBuilder + setParameter() lie la valeur, ne l'interpole jamais dans le DQL.
+        // Une tautologie classique ne doit donc jamais faire remonter l'annonce draft.
+        $this->get('/api/animals?q=' . urlencode("' OR '1'='1"));
+
+        $this->assertSame(200, $this->statusCode());
+
+        $json   = $this->json();
+        $titles = array_column($json['data'], 'title');
+
+        $this->assertSame(0, $json['meta']['total']);
+        $this->assertNotContains($this->draft->getTitle(), $titles);
+    }
+
+    public function testRechercheAvecPayloadInjectionSqlDestructifNeCassePasLaBase(): void
+    {
+        $payload = "'; DROP TABLE animals; --";
+
+        foreach (['q', 'city', 'postal_code', 'region', 'seller_type'] as $param) {
+            $this->get('/api/animals?' . $param . '=' . urlencode($payload));
+            $this->assertSame(200, $this->statusCode(), "Le filtre '{$param}' a produit une erreur serveur avec un payload d'injection.");
+        }
+
+        // La table `animals` existe toujours et l'annonce publiée est toujours retrouvable.
+        $this->get('/api/animals');
+        $this->assertSame(200, $this->statusCode());
+        $this->assertGreaterThanOrEqual(1, $this->json()['meta']['total']);
+    }
+
+    // =========================================================================
     // GET /api/animals/{id}
     // =========================================================================
 

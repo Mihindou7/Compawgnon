@@ -9,14 +9,21 @@ function getCookie(name: string): string | null {
   return match ? decodeURIComponent(match[1]) : null
 }
 
+function secureAttribute(): string {
+  // `Secure` ne fonctionne qu'en contexte sécurisé (HTTPS, ou localhost par exception
+  // navigateur). En conditionnel plutôt qu'inconditionnel pour ne pas casser les tests
+  // sur mobile via une IP LAN en HTTP pendant le développement.
+  return typeof window !== 'undefined' && window.location.protocol === 'https:' ? '; Secure' : ''
+}
+
 function setCookie(name: string, value: string, maxAge: number) {
   if (typeof document === 'undefined') return
-  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=${maxAge}; SameSite=Strict`
+  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=${maxAge}; SameSite=Strict${secureAttribute()}`
 }
 
 function deleteCookie(name: string) {
   if (typeof document === 'undefined') return
-  document.cookie = `${name}=; path=/; max-age=0; SameSite=Strict`
+  document.cookie = `${name}=; path=/; max-age=0; SameSite=Strict${secureAttribute()}`
 }
 
 export function getAccessToken(): string | null {

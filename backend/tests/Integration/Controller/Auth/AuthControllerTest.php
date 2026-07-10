@@ -24,6 +24,9 @@ class AuthControllerTest extends AbstractIntegrationTestCase
         parent::setUp();
         $this->truncateTables(['refresh_tokens', 'sellers', 'favorites', 'users']);
         $this->seedUsers();
+        // Le rate limiter de login_throttling (security.yaml) est stocké sur le filesystem
+        // (cache.rate_limiter) et survit donc au redémarrage du kernel entre les tests.
+        static::getContainer()->get('cache.rate_limiter')->clear();
     }
 
     // =========================================================================
@@ -102,6 +105,30 @@ class AuthControllerTest extends AbstractIntegrationTestCase
     public function testLoginMauvaisMotDePasse(): void
     {
         $this->loginAs(self::EMAIL_BUYER, 'MauvaisMotDePasse99!');
+
+        $this->assertSame(401, $this->statusCode());
+    }
+
+    public function testLoginBloqueApresTropDeTentativesEchouees(): void
+    {
+        // login_throttling (security.yaml) : 5 tentatives max par couple username+IP sur 15 minutes.
+        for ($i = 0; $i < 5; $i++) {
+            $this->loginAs(self::EMAIL_BUYER, 'MauvaisMotDePasse99!');
+            $this->assertSame(401, $this->statusCode());
+        }
+
+        // La 6e tentative est bloquée par le rate limiter, même avec le bon mot de passe.
+        $data = $this->loginAs(self::EMAIL_BUYER, self::PASSWORD);
+
+        $this->assertSame(401, $this->statusCode());
+        $this->assertStringContainsString('too many', strtolower($data['message'] ?? ''));
+    }
+
+    public function testLoginPayloadInjectionSqlEmailRefuse(): void
+    {
+        // Le UserProvider fait un findOneBy(['email' => ...]) paramétré : une tautologie SQL
+        // classique dans le champ email ne doit ni authentifier, ni provoquer d'erreur 500.
+        $this->loginAs("' OR '1'='1' -- ", 'peu-importe');
 
         $this->assertSame(401, $this->statusCode());
     }

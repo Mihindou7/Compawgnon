@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import {
   clearTokens,
@@ -102,6 +102,139 @@ describe('clearTokens', () => {
     setTokens('access', 'refresh')
     clearTokens()
     expect(() => clearTokens()).not.toThrow()
+  })
+})
+
+// =============================================================================
+// Attributs de sécurité du cookie (path, max-age, SameSite, Secure conditionnel)
+// =============================================================================
+
+describe('setTokens — attributs de sécurité du cookie', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
+
+  it('pose les deux cookies avec path=/, SameSite=Strict et le bon max-age', () => {
+    const setSpy = vi.spyOn(document, 'cookie', 'set')
+
+    setTokens('access-jwt', 'refresh-jwt')
+
+    const writes  = setSpy.mock.calls.map((call) => call[0] as string)
+    const access  = writes.find((w) => w.startsWith('access_token='))
+    const refresh = writes.find((w) => w.startsWith('refresh_token='))
+
+    expect(access).toContain('path=/')
+    expect(access).toContain('max-age=3600')
+    expect(access).toContain('SameSite=Strict')
+
+    expect(refresh).toContain('path=/')
+    expect(refresh).toContain(`max-age=${60 * 60 * 24 * 30}`)
+    expect(refresh).toContain('SameSite=Strict')
+
+    setSpy.mockRestore()
+  })
+
+  it('ajoute Secure quand le site est servi en HTTPS', () => {
+    vi.stubGlobal('location', { ...window.location, protocol: 'https:' })
+    const setSpy = vi.spyOn(document, 'cookie', 'set')
+
+    setTokens('access-jwt', 'refresh-jwt')
+
+    const access = setSpy.mock.calls.map((call) => call[0] as string).find((w) => w.startsWith('access_token='))
+    expect(access).toContain('; Secure')
+
+    setSpy.mockRestore()
+  })
+
+  it("n'ajoute pas Secure en HTTP (dev local / test sur IP LAN)", () => {
+    vi.stubGlobal('location', { ...window.location, protocol: 'http:' })
+    const setSpy = vi.spyOn(document, 'cookie', 'set')
+
+    setTokens('access-jwt', 'refresh-jwt')
+
+    const access = setSpy.mock.calls.map((call) => call[0] as string).find((w) => w.startsWith('access_token='))
+    expect(access).not.toContain('Secure')
+
+    setSpy.mockRestore()
+  })
+
+  it('la suppression des cookies porte aussi les mêmes attributs de sécurité', () => {
+    vi.stubGlobal('location', { ...window.location, protocol: 'https:' })
+    const setSpy = vi.spyOn(document, 'cookie', 'set')
+
+    clearTokens()
+
+    const writes = setSpy.mock.calls.map((call) => call[0] as string)
+    expect(writes.find((w) => w.startsWith('access_token='))).toContain('SameSite=Strict')
+    expect(writes.find((w) => w.startsWith('access_token='))).toContain('; Secure')
+    expect(writes.find((w) => w.startsWith('refresh_token='))).toContain('; Secure')
+
+    setSpy.mockRestore()
+  })
+})
+
+// =============================================================================
+// setTokens / clearTokens — attributs de sécurité du cookie
+// =============================================================================
+
+describe('setTokens — attributs de sécurité du cookie', () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+    vi.unstubAllGlobals()
+  })
+
+  it('pose le cookie access_token avec SameSite=Strict, path=/ et le bon max-age', () => {
+    const setSpy = vi.spyOn(document, 'cookie', 'set')
+
+    setTokens('access-jwt', 'refresh-jwt')
+
+    const accessWrite = setSpy.mock.calls.map((c) => c[0]).find((v) => v.startsWith('access_token='))
+    expect(accessWrite).toBeDefined()
+    expect(accessWrite).toContain('SameSite=Strict')
+    expect(accessWrite).toContain('path=/')
+    expect(accessWrite).toContain('max-age=3600')
+  })
+
+  it('pose le cookie refresh_token avec le bon max-age (30 jours)', () => {
+    const setSpy = vi.spyOn(document, 'cookie', 'set')
+
+    setTokens('access-jwt', 'refresh-jwt')
+
+    const refreshWrite = setSpy.mock.calls.map((c) => c[0]).find((v) => v.startsWith('refresh_token='))
+    expect(refreshWrite).toBeDefined()
+    expect(refreshWrite).toContain('SameSite=Strict')
+    expect(refreshWrite).toContain(`max-age=${60 * 60 * 24 * 30}`)
+  })
+
+  it('ajoute l\'attribut Secure quand le site est servi en HTTPS', () => {
+    vi.stubGlobal('location', { ...window.location, protocol: 'https:' })
+    const setSpy = vi.spyOn(document, 'cookie', 'set')
+
+    setTokens('access-jwt', 'refresh-jwt')
+
+    const accessWrite = setSpy.mock.calls.map((c) => c[0]).find((v) => v.startsWith('access_token='))
+    expect(accessWrite).toContain('; Secure')
+  })
+
+  it("n'ajoute pas Secure en HTTP (dev local ou test sur un appareil via IP LAN)", () => {
+    vi.stubGlobal('location', { ...window.location, protocol: 'http:' })
+    const setSpy = vi.spyOn(document, 'cookie', 'set')
+
+    setTokens('access-jwt', 'refresh-jwt')
+
+    const accessWrite = setSpy.mock.calls.map((c) => c[0]).find((v) => v.startsWith('access_token='))
+    expect(accessWrite).not.toContain('Secure')
+  })
+
+  it('deleteCookie (via clearTokens) reprend les mêmes attributs SameSite/Secure', () => {
+    vi.stubGlobal('location', { ...window.location, protocol: 'https:' })
+    const setSpy = vi.spyOn(document, 'cookie', 'set')
+
+    clearTokens()
+
+    const writes = setSpy.mock.calls.map((c) => c[0])
+    expect(writes.some((v) => v.startsWith('access_token=') && v.includes('; Secure'))).toBe(true)
+    expect(writes.some((v) => v.startsWith('refresh_token=') && v.includes('SameSite=Strict'))).toBe(true)
   })
 })
 
